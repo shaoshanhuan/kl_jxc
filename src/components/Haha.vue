@@ -1,7 +1,7 @@
 <template>
     <div>
-        我是APP组件公共的部分，看电视吧：
-        <div style="border:1px solid red; width: 400px; height: 300px;">
+        <h1>我是哈哈组件，我家也有电视</h1>
+        <div style="border:1px solid green; width: 300px; height: 200px;">
             <router-view></router-view>
         </div>
     </div>
