@@ -1,10 +1,5 @@
 <template>
-    <div>
-        我是APP组件公共的部分，看电视吧：
-        <div style="border:1px solid red; width: 400px; height: 300px;">
-            <router-view></router-view>
-        </div>
-    </div>
+    <router-view></router-view>
 </template>
 
 <script>
