@@ -8,6 +8,10 @@ Vue.config.productionTip = false;
 
 Vue.use(iview);
 
+Vue.prototype.$bus = new Vue({
+    data: {}
+});
+
 // 后置守卫
 router.afterEach((to, from) => {
     // 当用户切换路由的时候，告诉全局store

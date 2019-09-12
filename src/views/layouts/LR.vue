@@ -11,6 +11,10 @@
                         <MenuItem name="qbwl">全部物流</MenuItem>
                         <MenuItem name="wlcx">物流查询</MenuItem>
                     </div>
+                    <div v-show="$store.state.routerStore.suoshu === 'fahuodan'" >
+                        <MenuItem name="zjfhd">增加发货单</MenuItem>
+                        <MenuItem name="qbfhd">全部发货单</MenuItem>
+                    </div>
                 </Menu>
             </Sider>
             <Layout :style="{padding: '0 24px 24px'}">

@@ -29,7 +29,9 @@ module.exports = {
     "eqeqeq": 2,
     "indent": [2, 4],
     "semi": [2, "always"],
-    "quotes": [2, "single"]
+    "quotes": [2, "single"],
+    "no-parsing-error": 0,
+    "vue/no-parsing-error": 0
   },
   parserOptions: {
     parser: 'babel-eslint'

@@ -36,12 +36,12 @@ export default {
                     'c': '订单'
                 },
                 {
-                    'name': 'wuliu',
-                    'c': '物流'
+                    'name': 'fahuodan',
+                    'c': '发货单'
                 },
                 {
-                    'name': 'werewr',
-                    'c': '4545'
+                    'name': 'wuliu',
+                    'c': '物流'
                 }
             ]
         };

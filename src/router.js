@@ -100,6 +100,47 @@ export default new Router({
                             component: () => import('./views/wuliu/Wuliuchaxun.vue')
                         }
                     ]
+                },
+                {
+                    path: 'fahuodan',
+                    component: () => import('./views/layouts/LR.vue'),
+                    name: 'fahuodan',
+                    meta: {
+                        suoshu: 'fahuodan',
+                        meta: {
+                            suoshu: 'fahuodan',
+                            c1: '首页',
+                            c2: '发货单'
+                        }
+                    },
+                    redirect: {
+                        // 默认子栏目
+                        name: 'zjfhd'
+                    },
+                    children: [
+                        {
+                            path: 'zjfhd',
+                            name: 'zjfhd',
+                            meta: {
+                                suoshu: 'fahuodan',
+                                c1: '首页',
+                                c2: '发货单',
+                                c3: '增加发货单'
+                            },
+                            component: () => import('./views/fahuodan/Zjfhd.vue')
+                        },
+                        {
+                            path: 'qbfhd',
+                            name: 'qbfhd',
+                            meta: {
+                                suoshu: 'fahuodan',
+                                c1: '首页',
+                                c2: '发货单',
+                                c3: '全部发货单'
+                            },
+                            component: () => import('./views/fahuodan/Qbfhd.vue')
+                        }
+                    ]
                 }
             ]
         },
