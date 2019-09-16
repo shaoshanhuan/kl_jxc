@@ -33,6 +33,13 @@
                 <MyView :arr="arr" @del="delHan($event)"/>
             </Col>
         </Row>
+        <Row>
+            <Col :span="3">
+            </Col>
+            <Col :span="21">
+                <Button type="success">提交</Button>
+            </Col>
+        </Row>
     </div>
 </template>
 

@@ -117,4 +117,8 @@ export default {
     .h20{
         height:20px;
     }
+    i{
+        font-style:normal;
+        color:#f38;
+    }
 </style>

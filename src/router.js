@@ -139,6 +139,17 @@ export default new Router({
                                 c3: '全部发货单'
                             },
                             component: () => import('./views/fahuodan/Qbfhd.vue')
+                        },
+                        {
+                            path: 'xiangqing/:id',
+                            name: 'fhdxq',
+                            meta: {
+                                suoshu: 'fahuodan',
+                                c1: '首页',
+                                c2: '发货单',
+                                c3: '全货单详情'
+                            },
+                            component: () => import('./views/fahuodan/Fhdxq.vue')
                         }
                     ]
                 }
