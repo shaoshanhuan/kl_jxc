@@ -22,7 +22,7 @@
                 <b>增加货物</b>
             </Col>
             <Col :span="21">
-                <Button>点击增加</Button>
+                <Button @click="addHan">点击增加</Button>
             </Col>
         </Row>
 
@@ -48,7 +48,7 @@ export default {
             'shop': '',
             'cangku': {},
             'isShowMenu': false,
-            'isShowModal': true
+            'isShowModal': false
         };
     },
     methods: {
@@ -56,6 +56,10 @@ export default {
             // 关闭菜单
             this.isShowMenu = false;
             this.cangku = obj;
+        },
+        addHan () {
+            // 打开模态框
+            this.isShowModal = true;
         }
     }
 };
