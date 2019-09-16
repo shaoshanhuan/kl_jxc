@@ -6,7 +6,7 @@
                 <div class="ovs">
                     <Row :gutter="16">
                         <Col :span="4" v-for="item in obj[k]" :key="item.name">
-                            <div class="grid" @click="showModal(item)">
+                            <div class="grid" @click="showModal(item, k)">
                                 <p>
                                     <img :src="`http://192.168.2.250:7729/productpics/${item.pic}`"/>
                                 </p>
@@ -23,8 +23,8 @@
             </TabPane>
         </Tabs>
 
-        <Modal v-model="isShowModal" title="选择工厂和数量">
-            <ChooseFactory :nowp="nowp" :arr="arr"/>
+        <Modal v-model="isShowModal" title="选择工厂和数量" @on-ok="onHan">
+            <ChooseFactory v-if="isShowModal" :nowp="nowp" :arr="arr" ref="cf"/>
         </Modal>
     </div>
 </template>
@@ -34,6 +34,7 @@ import ChooseFactory from './ChooseFactory.vue';
 import axiosInstance from '../../http/axiosInstance';
 import _ from 'lodash';
 export default {
+    props: ['arr'],
     data () {
         return {
             // 是否显示菊花
@@ -43,24 +44,7 @@ export default {
             // 服务器返回的产品清单
             obj: {},
             // 当前正在点击的这个东西数据
-            nowp: {},
-            arr: [
-                {
-                    'ptype': '果干蜜饯',
-                    'pname': '果脯菠萝片',
-                    'factory': [{ 'fname': 'A', 'fcount': 8 }, { 'fname': 'A', 'fcount': 2 }]
-                },
-                {
-                    'ptype': '饼干膨化',
-                    'pname': '办公室玉米花',
-                    'factory': [{ 'fname': 'G', 'fcount': 5 }]
-                },
-                {
-                    'ptype': '果干蜜饯',
-                    'pname': '蔓越莓干',
-                    'factory': [{ 'fname': 'B', 'fcount': 3 }, { 'fname': 'E', 'fcount': 3 }, { 'fname': 'F', 'fcount': 5 }]
-                }
-            ]
+            nowp: {}
         };
     },
     created () {
@@ -80,9 +64,11 @@ export default {
             // 遍历
             for (let i = 0; i < this.arr.length; i++) {
                 if (this.arr[i].pname === pname) {
-                    fcount = this.arr[i].factory.length;
                     // 遍历它的factory
                     for (let j = 0; j < this.arr[i].factory.length; j++) {
+                        if (this.arr[i].factory[j].fcount !== 0) {
+                            fcount++;
+                        }
                         pcount += this.arr[i].factory[j].fcount;
                     }
                 }
@@ -99,9 +85,47 @@ export default {
                 }
             }, k);
         },
-        showModal (item) {
+        showModal (item, k) {
             this.nowp = item;
+            // 给nowp补一个属性
+            this.nowp.ptype = k;
             this.isShowModal = true;
+        },
+        onHan () {
+            let mydata = this.$refs.cf.mydata;
+            // 得到子组件中的数据
+            // 遍历自己的this.arr，看谁的pname等于nowp的name
+            // 如果都没有匹配的，就要this.arr数组中增加一项
+            // 如果有匹配的，就要遍历这一项的factory数组，用this.$refs.cf.mydata的值替换它的fcount值
+            for (let i = 0; i < this.arr.length; i++) {
+                if (this.arr[i].pname === this.nowp.name) {
+                    // console.log('找到了' + this.arr[i].pname);
+                    // 看看每项是不是都是0，都是0要删除这项
+                    // 假设不是
+                    let isAllZero = true;
+                    Object.values(mydata).forEach(v => {
+                        if (v !== 0) {
+                            isAllZero = false;
+                        }
+                    });
+                    // 如果都是0，要删除这项
+                    if (isAllZero) {
+                        this.arr.splice(i, 1);
+                    }
+                    // 遍历它的factory
+                    this.arr[i].factory = Object.keys(mydata).map(fname => ({ 'fname': fname, 'fcount': mydata[fname] }));
+                    return;
+                }
+            }
+
+            // console.log('没有找到' + this.nowp.name);
+            // 没有找到，因为找到了的已经return了
+            // 要在数组中push一项
+            this.arr.push({
+                'ptype': this.nowp.ptype,
+                'pname': this.nowp.name,
+                'factory': Object.keys(mydata).map(fname => ({ 'fname': fname, 'fcount': mydata[fname] }))
+            });
         }
     },
     computed: {
@@ -121,17 +145,18 @@ export default {
         position: relative;
         min-height:200px;
         .ovs{
-            height: 300px;
-            overflow-x: hidden;
-            overflow-y: scroll;
             padding-top:20px;
             padding-right:20px;
         }
         .grid{
-            height: 150px;
+            height: 160px;
             margin-bottom: 16px;
             border: 1px solid #ccc;
             position: relative;
+            cursor: pointer;
+            &:hover{
+                border-color:orange;
+            }
             img{
                 width:100%;
             }
