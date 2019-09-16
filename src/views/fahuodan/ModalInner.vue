@@ -24,7 +24,7 @@
         </Tabs>
 
         <Modal v-model="isShowModal" title="选择工厂和数量" @on-ok="onHan">
-            <ChooseFactory v-if="isShowModal" :nowp="nowp" :arr="arr" ref="cf"/>
+            <ChooseFactory v-if="isShowModal" :nowp="nowp" :arr="arr" ref="cf" />
         </Modal>
     </div>
 </template>
@@ -122,6 +122,7 @@ export default {
             // 没有找到，因为找到了的已经return了
             // 要在数组中push一项
             this.arr.push({
+                'pprice': this.nowp.price,
                 'ptype': this.nowp.ptype,
                 'pname': this.nowp.name,
                 'factory': Object.keys(mydata).map(fname => ({ 'fname': fname, 'fcount': mydata[fname] }))
@@ -149,11 +150,13 @@ export default {
             padding-right:20px;
         }
         .grid{
-            height: 160px;
+            height: 180px;
             margin-bottom: 16px;
             border: 1px solid #ccc;
             position: relative;
+            text-align: center;
             cursor: pointer;
+            font-weight: bold;
             &:hover{
                 border-color:orange;
             }

@@ -39,6 +39,7 @@ export default {
         line-height: 170px;
         overflow: hidden;
         cursor: pointer;
+        text-align: center;
         &:hover{
             border-color:orange;
         }

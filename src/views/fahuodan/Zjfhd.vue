@@ -30,10 +30,7 @@
                 <b>发货单预览</b>
             </Col>
             <Col :span="21">
-                <div v-for="(item, index) in arr" :key="index" class="bbox">
-                    <h3><i>{{item.pname}}</i>产品应该由下列工厂发货</h3>
-                    <Table :columns="cols" :data="item.factory"></Table>
-                </div>
+                <MyView :arr="arr" @del="delHan($event)"/>
             </Col>
         </Row>
     </div>
@@ -43,48 +40,21 @@
 import DianshangInner from './DianshangInner';
 import CangkuInner from './CangkuInner';
 import ModalInner from './ModalInner';
+import MyView from './MyView';
 
 export default {
     components: {
         DianshangInner,
         CangkuInner,
-        ModalInner
+        ModalInner,
+        MyView
     },
     data () {
         return {
             'shop': '',
             'cangku': {},
             'isShowMenu': false,
-            'cols': [
-                { 'title': '工厂名', 'key': 'fname' },
-                { 'title': '发货数量', 'key': 'fcount' },
-                { 'title': '删除',
-                    render (h) {
-                        return h('Button', {
-                            attrs: {
-                                type: 'warning'
-                            }
-                        }, '删除');
-                    }
-                }
-            ],
-            'arr': [
-                {
-                    'ptype': '果干蜜饯',
-                    'pname': '果脯菠萝片',
-                    'factory': [{ 'fname': 'A', 'fcount': 18 }, { 'fname': 'C', 'fcount': 2 }]
-                },
-                {
-                    'ptype': '饼干膨化',
-                    'pname': '办公室玉米花',
-                    'factory': [{ 'fname': 'G', 'fcount': 5 }]
-                },
-                {
-                    'ptype': '果干蜜饯',
-                    'pname': '蔓越莓干',
-                    'factory': [{ 'fname': 'B', 'fcount': 3 }, { 'fname': 'E', 'fcount': 3 }, { 'fname': 'F', 'fcount': 5 }]
-                }
-            ]
+            'arr': []
         };
     },
     methods: {
@@ -96,6 +66,19 @@ export default {
         addHan () {
             // 打开模态框
             this.isShowModal = true;
+        },
+        delHan (obj) {
+            // 删除
+            // 遍历
+            for (let i = 0; i < this.arr.length; i++) {
+                if (this.arr[i].pname === obj.pname) {
+                    this.arr[i].factory = this.arr[i].factory.filter(item => item.fname !== obj.fname);
+                    // 如果工厂被删光了，就删除整个项
+                    if (this.arr[i].factory.length === 0) {
+                        this.arr.splice(i, 1);
+                    }
+                }
+            }
         }
     }
 };
