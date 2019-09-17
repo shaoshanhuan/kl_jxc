@@ -160,6 +160,11 @@ export default new Router({
             component: () => import('./views/login/Login.vue')
         },
         {
+            path: '/carpic/:id',
+            component: () => import('./views/wuliu/Tuji.vue'),
+            name: 'tuji'
+        },
+        {
             path: '*',
             redirect: {
                 name: 'index'

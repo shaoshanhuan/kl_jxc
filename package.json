@@ -14,6 +14,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
+    "vue-picture-swipe": "^1.2.0",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
