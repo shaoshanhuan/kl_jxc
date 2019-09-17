@@ -23,7 +23,7 @@
 
 <script>
 export default {
-    props: ['arr'],
+    props: ['arr', 'showDel'],
     data () {
         return {
             'st': 'cpst',
@@ -32,10 +32,13 @@ export default {
     },
     methods: {
         getCol1 (pname) {
-            return [
+            // 根据用户传入的showDel布尔值决定是否有删除这列
+            let cols = [
                 { 'title': '工厂名', 'key': 'fname' },
-                { 'title': '发货数量', 'key': 'fcount' },
-                { 'title': '删除',
+                { 'title': '发货数量', 'key': 'fcount' }
+            ];
+            if (this.showDel) {
+                cols.push({ 'title': '删除',
                     render: (h, { row }) => {
                         return h('Poptip', {
                             attrs: {
@@ -56,14 +59,21 @@ export default {
                             }, '删除')
                         ]);
                     }
-                }
-            ];
+                });
+            }
+
+            return cols;
         },
         getCol2 (fname) {
-            return [
+            // 根据用户传入的showDel布尔值决定是否有删除这列
+            let cols = [
                 { 'title': '货物', 'key': 'pname' },
-                { 'title': '发货数量', 'key': 'fcount' },
-                { 'title': '删除',
+                { 'title': '发货数量', 'key': 'fcount' }
+            ];
+
+            // 判断
+            if (this.showDel) {
+                cols.push({ 'title': '删除',
                     render: (h, { row }) => {
                         return h('Poptip', {
                             attrs: {
@@ -84,8 +94,9 @@ export default {
                             }, '删除')
                         ]);
                     }
-                }
-            ];
+                });
+            }
+            return cols;
         }
     },
     computed: {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>我是发货单详情 - {{id}}</h1>
-        <MyView :arr="arr" />
+        <MyView :arr="arr" :showDel="false"/>
     </div>
 </template>
 
