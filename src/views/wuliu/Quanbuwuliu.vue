@@ -53,7 +53,8 @@ export default {
                                     }
                                 },
                                 attrs: {
-                                    src: `http://192.168.2.250:3000/images/carimages_small/${row.id}/view/${row.image}`
+                                    'class': 'tutu',
+                                    'src': `http://192.168.2.250:3000/images/carimages_small/${row.id}/view/${row.image}`
                                 }
                             })
                         ]);
@@ -124,8 +125,11 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     .h20{
         height: 20px;
+    }
+    .tutu{
+        cursor: pointer;
     }
 </style>
