@@ -1,8 +1,9 @@
 <template>
     <div class="wrap">
         <div class="leftpart">
-            <img v-if="info.id" width="400" :src="`http://192.168.2.250:3000/images/carimages/${info.id}/${xc}/${info.images[xc][nowidx]}`" alt="">
-            <button @click="gonext">下一张</button>
+            <div class="leftbtn" @click="goprev"></div>
+            <div class="rightbtn" @click="gonext"></div>
+            <Datu v-if="info.images[xc].length !== 0" :id="info.id" :xc="xc" :picname="info.images[xc][nowidx]" />
         </div>
         <div class="rightpart">
             <h1>
@@ -27,7 +28,7 @@
                 <div class="unit" :style="{'left': -290 * nowpage + 'px'}">
                     <div class="cx" v-for="i in allpages" :key="i">
                         <p @click="changenowidx((i - 1) * 4 + (j - 1))" :class="['tubox', {'cur': (i - 1) * 4 + (j - 1) === nowidx}]" v-for="j in 4" :key="j">
-                            <img v-if="(i - 1) * 4 + (j - 1) < info.images[xc].length" :src="`http://192.168.2.250:3000/images/carimages_small/${info.id}/${xc}/${info.images[xc][(i - 1) * 4 + (j - 1)]}`">
+                            <SmallPic v-if="(i - 1) * 4 + (j - 1) < info.images[xc].length" :src="`http://192.168.2.250:3000/images/carimages_small/${info.id}/${xc}/${info.images[xc][(i - 1) * 4 + (j - 1)]}`" />
                         </p>
                     </div>
                 </div>
@@ -41,7 +42,13 @@
 
 <script>
 import axiosInstance from '../../http/axiosInstance';
+import Datu from './Datu';
+import SmallPic from './SmallPic';
 export default {
+    components: {
+        Datu,
+        SmallPic
+    },
     created () {
         const id = this.$route.params.id;
         axiosInstance.get('http://192.168.2.250:3000/car/' + id).then(data => {
@@ -104,6 +111,27 @@ export default {
                 this.nowidx = 0;
             }
         },
+        goprev () {
+            // 进行判断，看看是不是应该换相册
+            if (this.nowidx > 0) {
+                this.nowidx--;
+            } else {
+                // 到头了
+                if (this.xc === 'view') {
+                    this.xc = 'more';
+                    this.nowidx = this.info.images.more.length - 1;
+                } else if (this.xc === 'more') {
+                    this.xc = 'engine';
+                    this.nowidx = this.info.images.engine.length - 1;
+                } else if (this.xc === 'engine') {
+                    this.xc = 'inner';
+                    this.nowidx = this.info.images.inner.length - 1;
+                } else if (this.xc === 'inner') {
+                    this.xc = 'view';
+                    this.nowidx = this.info.images.view.length - 1;
+                }
+            }
+        },
         changenowidx (idx) {
             this.nowidx = idx;
         }
@@ -129,6 +157,26 @@ export default {
         padding-right:300px;
 
         .leftpart{
+            height:100%;
+            position: relative;
+            .leftbtn{
+                position: absolute;
+                width:50%;
+                height:100%;
+                top:0;
+                left:0;
+                z-index: 999;
+                cursor: url(http://img2.cache.netease.com/utf8/gallery/img/cursor_left.cur), auto;
+            }
+            .rightbtn{
+                position: absolute;
+                width:50%;
+                height:100%;
+                top:0;
+                right:0;
+                z-index: 999;
+                cursor: url(http://img2.cache.netease.com/utf8/gallery/img/cursor_right.cur), auto;
+            }
         }
 
         .rightpart{
@@ -201,6 +249,7 @@ export default {
                                 top:0;
                                 left:0;
                                 background:rgba(0, 0, 0, .6);
+                                z-index: 99999;
                             }
                             img{
                                 width:100%;
